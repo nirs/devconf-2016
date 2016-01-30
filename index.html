@@ -7,7 +7,7 @@
     <title>Ceph integration with oVirt using Cinder</title>
 
     <meta name="description" content="Ceph integration with oVirt using Cinder">
-    <meta name="author" content="Hakim El Hattab">
+    <meta name="author" content="Nir Soffer">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -42,20 +42,318 @@
 
         <section>
           <h1>Ceph integration with oVirt using Cinder</h1>
-            <p>
-                Nir Soffer <a href="mailto:nsoffer@redhat.com">&lt;nsoffer@redhat.com&gt;</a><br>
-            </p>
-            <p>
-                DevConf.cz 2016
-            </p>
+          <p>
+            Nir Soffer <a href="mailto:nsoffer@redhat.com">&lt;nsoffer@redhat.com&gt;</a><br>
+          </p>
+          <p>
+            <a href="http://devconf.cz/">DevConf.cz 2016</a>
+          </p>
         </section>
 
         <section>
-            <h1>Overview</h1>
+          <h2>Overview</h2>
+          <ul>
+            <li>Introduction</li>
+            <li>oVirt storage</li>
+            <li>Network storage</li>
+            <li>Keeping secrets</li>
+            <li>Live snapshot</li>
+            <li>Future directions</li>
+          </ul>
         </section>
 
         <section>
-          <h1>Questions?</h1>
+
+          <section>
+            <h2>Introduction</h2>
+          </section>
+
+          <section>
+            <h2>About oVirt</h2>
+          </section>
+
+          <section>
+            <h2>Ceph in a nutshell</h2>
+          </section>
+
+          <section>
+            <h2>What is Cinder?</h2>
+          </section>
+
+          <section>
+            <h2>Focusing on the host side</h2>
+            <p>
+            For more info on the engine side, see Maor Lipchuk talk from Fosdem
+            2016
+            <a href="https://fosdem.org/2016/schedule/event/ceph/">
+              Managing Ceph through Cinder using oVirt</a>.
+            </p>
+            <p><img src="images/maor.jpg" alt="Maor Lipchuk"/></p>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>oVirt storage</h2>
+          </section>
+
+          <section>
+            <h2>Block storage</h2>
+            <ul>
+              <li>iSCSI</li>
+              <li>Fibre Channel</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Block storage domain</h2>
+            <p>A VG, special LVs for metadata, locking, messaging.</p>
+            <pre style="font-size: 0.75em">
+# lvs -o name,attr,size 6acaac02-7e7d-4321-8ba2-70e07d96581d
+  LV                                   Attr       LSize  
+  56b25c4a-085f-406e-8a2e-acb06a03d0cc -wi-a----- 128.00m
+  78f22775-916c-4e72-8c5b-9917734b26da -wi-a-----   4.50g
+  c00fd591-f85e-4572-b82e-35c542e383a7 -wi-a----- 128.00m
+  ids                                  -wi-ao---- 128.00m
+  inbox                                -wi-a----- 128.00m
+  leases                               -wi-a-----   2.00g
+  master                               -wi-ao----   1.00g
+  metadata                             -wi-a----- 512.00m
+  outbox                               -wi-a----- 128.00m
+            </pre>
+          </section>
+
+          <section>
+            <h2>Block Volume</h2>
+            <ul>
+              <li>/dev/vgname/lvname (Qemu image)</li>
+              <li>/dev/vgname/lvname (LV)</li>
+              <li>vgname (VG)</li>
+              <li>/dev/mapper/guid (multipath device)</li>
+              <li>/dev/sda (SCSI device)</li>
+              <li>iSCSI or FC</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Block storage problems</h2>
+            <ul>
+              <li>Scale (350 LVs per VG)</li>
+              <li>Complex</li>
+              <li>Hard to manage</li>
+              <li>Timeouts (much better on 7.2)</li>
+              <li>QOS (for storage operations)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Block storage thin provisioning</h2>
+            <ol>
+              <li class="fragment">Monitor disk watermark via Libvirt</li>
+              <li class="fragment">Extend LV via SPM</li>
+              <li class="fragment">Resume VM if needed</li>
+              <li class="fragment">Rinse and repeat...</li>
+            </ol>
+          </section>
+
+          <section>
+            <h2>Block thin provisioning problems</h2>
+            <ul>
+              <li>Scale (polling)</li>
+              <li>Complex</li>
+              <li>Slow (VM may pause)</li>
+              <li>Single point of failure (SPM)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>File storage</h2>
+            <ul>
+              <li>NFS</li>
+              <li>GlusterFS</li>
+              <li>POSIX</li>
+              <li>Local storage</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>File storage domain</h2>
+            <p>A directory on a mounted filesystem</p>
+            <pre style="font-size: 0.75em">
+# ls -lh /rhev/data-center/mnt/example.com:_export_data/869...783
+total 4.0K
+drwxr-xr-x. 2 vdsm kvm   69 Jan 28 22:56 dom_md
+drwxr-xr-x. 7 vdsm kvm 4.0K Jan 23 19:13 images
+drwxr-xr-x. 2 vdsm kvm    6 Jan 28 22:56 master
+            </pre>
+          </section>
+
+          <section>
+            <h2>File volume</h2>
+            <p>Files in the image directory</p>
+            <pre style="font-size: 0.75em">
+# ls -lh /rhev/data-center/mnt/example.com\:_export_data/869...783/images/24c...57c
+total 1.7G
+-rw-rw----. 1 vdsm kvm 1.7G Dec  4 15:52 1f6...e06
+-rw-rw----. 1 vdsm kvm 1.0M Dec  4 15:49 1f6...e06.lease
+-rw-r--r--. 1 vdsm kvm  309 Dec  4 15:52 1f6...e06.meta
+            </pre>
+          </section>
+
+          <section>
+            <h2>File storage thin provisioning</h2>
+            <p>(file system handles it)</p>
+          </section>
+
+          <section>
+            <h2>File storage problems</h2>
+            <ul>
+              <li>Overhead</li>
+              <li>Timeouts (ioprocess)</li>
+              <li>No QOS (for storage operations)</li>
+              <li>Reliability</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Snapshots</h2>
+            <ul>
+              <li>active volume</li>
+              <li>snapshot 2</li>
+              <li>snapshot 1</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Snapshots problems</h2>
+            <ul>
+              <li>Performance</li>
+              <li>Hard to manage</li>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>Network storage</h2>
+          </section>
+
+          <section>
+            <h2>Ceph volume</h2>
+            <pre>
+&lt;disk type='network' device='disk'&gt;
+    &lt;source protocol='rbd' name='pool/volume'&gt;
+        &lt;host name='10.0.1.1' port='6789'/&gt;
+        &lt;host name='10.0.1.2' port='6789'/&gt;
+        &lt;host name='10.0.1.3' port='6789'/&gt;
+    &lt;/source&gt;
+    &lt;auth username="cinder"&gt;
+        &lt;secret type="ceph" uuid="ec5236..."/&gt;
+    &lt;/auth&gt;
+    &lt;target dev='vda' bus='virtio'/&gt;
+&lt;/disk&gt;
+            </pre>
+          </section>
+
+          <section>
+            <h2>Ceph volume managment</h2>
+            <p>(There is no local device)</p>
+          </section>
+
+          <section>
+            <h2>Ceph storage benefits</h2>
+            <ul>
+              <li>Highly available</li>
+              <li>Scalable</li>
+              <li>Cost effective</li>
+              <li>Offloading</li>
+              <li>Zero management (on host)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Ceph storage problems</h2>
+            <ul>
+              <li>Incomplete (copy disk, live storage migration)</li>
+              <li>Integration with Cinder</li>
+              <li>No monitoring</li>
+            </ul>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>Keeping secrets</h2>
+          </section>
+
+          <section>
+            <h2>Cephx authentication</h2>
+          </section>
+
+          <section>
+            <h2>Libvirt secerts</h2>
+          </section>
+
+          <section>
+            <h2>Adding ceph auth keys</h2>
+          </section>
+
+          <section>
+            <h2>Registering secrets</h2>
+          </section>
+
+          <section>
+            <h2>Unregistering secrets</h2>
+          </section>
+
+          <section>
+            <h2>Known issues</h2>
+            <p>
+            Ceph key is exposed in the process list and persisted in libvirt
+            qemu logs. Hopefully fixed in 7.3
+            (<a href="https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-5160">CVE-2015-5160</a>,
+            <a href="https://bugzilla.redhat.com/1233948">BZ#1233948</a>).
+            </p>
+          </section>
+
+        </section>
+
+        <section>
+
+          <section>
+            <h2>Live snapshot</h2>
+          </section>
+
+          <section>
+            <h2>Live snapshot with oVirt disk</h2>
+          </section>
+
+          <section>
+            <h2>Freeze and thaw</h2>
+          </section>
+
+          <section>
+            <h2>Live snapshot with Ceph disk</h2>
+          </section>
+
+          <section>
+            <h2>Live snapshot with multiple disk types</h2>
+          </section>
+
+        </section>
+
+        <section>
+          <h2>Future directions</h2>
+        </section>
+
+        <section>
+          <h2>Questions?</h2>
         </section>
 
       </div>
@@ -75,7 +373,7 @@
         history: true,
         center: true,
 
-        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
 
         // Optional reveal.js plugins
         dependencies: [
