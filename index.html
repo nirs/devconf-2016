@@ -222,19 +222,71 @@ total 1.7G
             </ul>
           </section>
 
-          <section>
+          <section data-transition="none">
             <h2>Snapshots</h2>
-            <ul>
-              <li>active volume</li>
-              <li>snapshot 2</li>
-              <li>snapshot 1</li>
-            </ul>
+            <div>active volume</div>
+          </section>
+
+          <section data-transition="none">
+            <h2>Snapshots (1)</h2>
+            <div>active volume</div>
+            <div>&darr;</div>
+            <div>snapshot 1</div>
+          </section>
+
+          <section data-transition="none">
+            <h2>Snapshots (2)</h2>
+            <div>active volume</div>
+            <div>&darr;</div>
+            <div>snapshot 2</div>
+            <div>&darr;</div>
+            <div>snapshot 1</div>
+          </section>
+
+          <section data-transition="none">
+            <h2>Snapshots (3)</h2>
+            <div>active volume</div>
+            <div>&darr;</div>
+            <div>snapshot 3</div>
+            <div>&darr;</div>
+            <div>snapshot 2</div>
+            <div>&darr;</div>
+            <div>snapshot 1</div>
+          </section>
+
+          <section data-transition="none">
+            <h2>Snapshots (4)</h2>
+            <div>active volume</div>
+            <div>&darr;</div>
+            <div>snapshot 4</div>
+            <div>&darr;</div>
+            <div>snapshot 3</div>
+            <div>&darr;</div>
+            <div>snapshot 2</div>
+            <div>&darr;</div>
+            <div>snapshot 1</div>
+          </section>
+
+          <section data-transition="none">
+            <h2>Snapshots (5)</h2>
+            <div>active volume</div>
+            <div>&darr;</div>
+            <div>snapshot 5</div>
+            <div>&darr;</div>
+            <div>snapshot 4</div>
+            <div>&darr;</div>
+            <div>snapshot 3</div>
+            <div>&darr;</div>
+            <div>snapshot 2</div>
+            <div>&darr;</div>
+            <div>snapshot 1</div>
           </section>
 
           <section>
             <h2>Snapshots problems</h2>
             <ul>
               <li>Performance</li>
+              <li>Scale (on block storage)</li>
               <li>Hard to manage</li>
             </ul>
           </section>
@@ -249,7 +301,10 @@ total 1.7G
 
           <section>
             <h2>Ceph storage domain</h2>
-            <p>(Nothing on host side)</p>
+            <ul>
+              <li>Nothing on host</li>
+              <li>Provider on Engine side</li>
+            </ul>
           </section>
 
           <section>
@@ -270,7 +325,10 @@ total 1.7G
 
           <section>
             <h2>Ceph volume managment</h2>
-            <p>(There is no local device)</p>
+            <ul>
+              <li>Nothing on the host</li>
+              <li>Using Cinder APIs on Engine side, via OpenStack Java SDK</li>
+            </ul>
           </section>
 
           <section>
@@ -287,9 +345,8 @@ total 1.7G
           <section>
             <h2>Ceph storage problems</h2>
             <ul>
-              <li>Incomplete (copy disk, live storage migration)</li>
-              <li>Integration with Cinder</li>
-              <li>No monitoring</li>
+              <li>Feature incomplete - copy disk, live storage migration, templates, disaster recovery, monitoring, ...</li>
+              <li>Cinder and oVirt have different views on things</li>
             </ul>
           </section>
 
