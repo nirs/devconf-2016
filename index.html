@@ -341,7 +341,19 @@ total 1.7G
           </section>
 
           <section>
-            <h2>Live snapshot with oVirt disk</h2>
+            <h2>We need more contorl</h2>
+            <ul>
+              <li>Need to freeze guest file systems before creating a snapshot</li>
+              <li>But Libvirt controls snapshot flow</li>
+              <li>Engine needs to be in control</li>
+            </ul>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+/*
+ * use guest agent to quiesce all mounted file systems
+ * within the domain
+ */
+VIR_DOMAIN_SNAPSHOT_CREATE_QUIESCE  = 64;
+            </code></pre>
           </section>
 
           <section>
@@ -362,14 +374,12 @@ total 1.7G
 #
 # Since: 4.17.0
 ##
-{'command': {'class': 'VM', 'name': 'freeze'},
- 'data': {'vmID': 'UUID'}}
             </code></pre>
           </section>
 
           <section>
             <h2>snapshot</h2>
-            <p>Added <code>frozen</code> flag</p>
+            <p>New <code>frozen</code> flag</p>
             <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
 ##
 # @VM.snapshot:
@@ -406,17 +416,26 @@ total 1.7G
 #
 # Since: 4.17.0
 ##
-{'command': {'class': 'VM', 'name': 'thaw'},
- 'data': {'vmID': 'UUID'}}
             </code></pre>
           </section>
 
           <section>
             <h2>Live snapshot with Ceph disk</h2>
+            <p>Engine controls now the entire flow</p>
+            <ol>
+              <li class="fragment fade">Freeze VM via vdsm</li>
+              <li class="fragment fade">Create snapshot via Cinder</li>
+              <li class="fragment fade">Take snapshot via vdsm (frozen=True)</li>
+              <li class="fragment fade">Thaw VM via vdsm</li>
+            </ol>
           </section>
 
           <section>
-            <h2>Live snapshot with multiple disk types</h2>
+            <h2>Live snapshot without Ceph disks</h2>
+            <ul>
+              <li>Take snapshot via vdsm (frozen=False)</li>
+              <li>Vdsm freezes and thaws guest file systems if needed</li>
+            </ul>
           </section>
 
         </section>
