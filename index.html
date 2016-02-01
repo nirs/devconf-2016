@@ -325,7 +325,7 @@ total 1.7G
             <h2>Known issues</h2>
             <p>
             Ceph key is exposed in the process list and persisted in libvirt
-            qemu logs. Hopefully fixed in 7.3
+            qemu logs. Hopefully will be fixed in 7.3.
             (<a href="https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2015-5160">CVE-2015-5160</a>,
             <a href="https://bugzilla.redhat.com/1233948">BZ#1233948</a>).
             </p>
@@ -345,7 +345,70 @@ total 1.7G
           </section>
 
           <section>
-            <h2>Freeze and thaw</h2>
+            <h2>freeze</h2>
+            <p>New verb using Libvirt's
+            <a href="https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainFSFreeze">
+            <code>virDomainFSFreeze</code></a>
+            </p>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+##
+# @VM.freeze:
+#
+# Freeze mounted filesystems within the guest (hence
+# guest agent may be required depending on hypervisor
+# used).
+#
+# @vmID:         The UUID of the VM
+#
+# Since: 4.17.0
+##
+{'command': {'class': 'VM', 'name': 'freeze'},
+ 'data': {'vmID': 'UUID'}}
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>snapshot</h2>
+            <p>Added <code>frozen</code> flag</p>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+##
+# @VM.snapshot:
+#
+# Create a live snapshot of a VM's disks.
+#
+...
+# @frozen:      #optional Boolean value set to true if
+#               the vm is frozen and does not need to
+#               be freezed during the snapshot.
+#               (new in version 4.17.0)
+#
+# Since: 4.10.0
+##
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>thaw</h2>
+            <p>New verb using Libvirt's
+            <a
+              href="https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainFSThaw">
+              <code>virDomainFSThaw</code></a>
+            </p>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+##
+# @VM.thaw:
+#
+# Thaw mounted filesystems within the guest (hence
+# guest agent may be required depending on hypervisor
+# used).
+#
+# @vmID:         The UUID of the VM
+#
+# Since: 4.17.0
+##
+{'command': {'class': 'VM', 'name': 'thaw'},
+ 'data': {'vmID': 'UUID'}}
+            </code></pre>
           </section>
 
           <section>
