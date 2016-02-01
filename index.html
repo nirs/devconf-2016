@@ -115,9 +115,9 @@
           <section>
             <h2>Block storage domain</h2>
             <p>A VG, special LVs for metadata, locking, messaging.</p>
-            <pre style="font-size: 0.75em">
-# lvs -o name,attr,size 6acaac02-7e7d-4321-8ba2-70e07d96581d
-  LV                                   Attr       LSize  
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+# lvs -o name,attr,size 6acaac02-7e7d-...-70e07d96581d
+  LV                                   Attr       LSize
   56b25c4a-085f-406e-8a2e-acb06a03d0cc -wi-a----- 128.00m
   78f22775-916c-4e72-8c5b-9917734b26da -wi-a-----   4.50g
   c00fd591-f85e-4572-b82e-35c542e383a7 -wi-a----- 128.00m
@@ -127,7 +127,7 @@
   master                               -wi-ao----   1.00g
   metadata                             -wi-a----- 512.00m
   outbox                               -wi-a----- 128.00m
-            </pre>
+            </code></pre>
           </section>
 
           <section>
@@ -186,25 +186,25 @@
           <section>
             <h2>File storage domain</h2>
             <p>A directory on a mounted filesystem</p>
-            <pre style="font-size: 0.75em">
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
 # ls -lh /rhev/data-center/mnt/example.com:_export_data/869...783
 total 4.0K
 drwxr-xr-x. 2 vdsm kvm   69 Jan 28 22:56 dom_md
 drwxr-xr-x. 7 vdsm kvm 4.0K Jan 23 19:13 images
 drwxr-xr-x. 2 vdsm kvm    6 Jan 28 22:56 master
-            </pre>
+            </code></pre>
           </section>
 
           <section>
             <h2>File volume</h2>
             <p>Files in the image directory</p>
-            <pre style="font-size: 0.75em">
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
 # ls -lh /rhev/data-center/mnt/example.com\:_export_data/869...783/images/24c...57c
 total 1.7G
 -rw-rw----. 1 vdsm kvm 1.7G Dec  4 15:52 1f6...e06
 -rw-rw----. 1 vdsm kvm 1.0M Dec  4 15:49 1f6...e06.lease
 -rw-r--r--. 1 vdsm kvm  309 Dec  4 15:52 1f6...e06.meta
-            </pre>
+            </code></pre>
           </section>
 
           <section>
@@ -254,7 +254,7 @@ total 1.7G
 
           <section>
             <h2>Ceph volume</h2>
-            <pre>
+					  <pre><code data-trim>
 &lt;disk type='network' device='disk'&gt;
     &lt;source protocol='rbd' name='pool/volume'&gt;
         &lt;host name='10.0.1.1' port='6789'/&gt;
@@ -264,9 +264,8 @@ total 1.7G
     &lt;auth username="cinder"&gt;
         &lt;secret type="ceph" uuid="ec5...236"/&gt;
     &lt;/auth&gt;
-    &lt;target dev='vda' bus='virtio'/&gt;
 &lt;/disk&gt;
-            </pre>
+            </code></pre>
           </section>
 
           <section>
