@@ -155,9 +155,12 @@ body {
 .reveal pre code {
   display: block;
   padding: 5px;
-  overflow: auto;
-  max-height: 400px;
-  word-wrap: normal; }
+  max-height: 600px;
+  overflow-x: visible;
+  overflow-y: auto;
+  word-wrap: break-word;
+  background-color: ;
+}
 
 .reveal table {
   margin: auto;
