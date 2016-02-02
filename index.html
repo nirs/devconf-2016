@@ -43,7 +43,9 @@
         <section>
           <h1>Ceph integration with oVirt using Cinder</h1>
           <p>
-            Nir Soffer <a href="mailto:nsoffer@redhat.com">&lt;nsoffer@redhat.com&gt;</a><br>
+            Nir Soffer<br/>
+            Senior Software Engineer, RHEV Storage<br/>
+            <a href="mailto:nsoffer@redhat.com">nsoffer@redhat.com</a>
           </p>
           <p>
             <a href="http://devconf.cz/">DevConf.cz 2016</a>
@@ -93,7 +95,7 @@
             <h2>Focusing on the host side</h2>
             <p>
             For more information on the engine side and cinder integration, see
-            Maor Lipchuk talk from Fosdem 2016
+            Maor Lipchuk's talk from FOSDEM 2016
             <a href="https://fosdem.org/2016/schedule/event/ceph/">
               Managing Ceph through Cinder using oVirt</a>.
             </p>
@@ -153,7 +155,7 @@
               <li>Scale (350 LVs per VG)</li>
               <li>Complex</li>
               <li>Hard to manage</li>
-              <li>Timeouts (much better on 7.2)</li>
+              <li>Timeouts (much better since EL 7.2)</li>
               <li>QOS (for storage operations)</li>
             </ul>
           </section>
@@ -184,7 +186,7 @@
               <li>NFS</li>
               <li>GlusterFS</li>
               <li>POSIX</li>
-              <li>Local storage</li>
+              <li>Local FS</li>
             </ul>
           </section>
 
@@ -292,7 +294,7 @@ total 1.7G
             <ul>
               <li>Performance</li>
               <li>Scale (on block storage)</li>
-              <li>Hard to manage</li>
+              <li>Difficult to manage</li>
             </ul>
           </section>
 
@@ -494,7 +496,7 @@ VIR_DOMAIN_SNAPSHOT_CREATE_QUIESCE  = 64;
 
           <section>
             <h2>Live snapshot with Ceph disk</h2>
-            <p>Engine controls now the entire flow</p>
+            <p>Engine now controls the entire flow</p>
             <ol>
               <li class="fragment fade">Freeze VM via vdsm</li>
               <li class="fragment fade">Create snapshot via Cinder</li>
