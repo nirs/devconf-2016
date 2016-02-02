@@ -12,9 +12,9 @@
    id="svg13566"
    version="1.1"
    inkscape:version="0.91 r13725"
-   width="450"
+   width="500"
    height="200"
-   viewBox="0 0 450 200"
+   viewBox="0 0 500 200"
    sodipodi:docname="ovirt-logo.svg">
   <metadata
      id="metadata13572">
@@ -40,14 +40,14 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1014"
+     inkscape:window-height="1010"
      id="namedview13568"
      showgrid="false"
-     inkscape:zoom="0.78888889"
-     inkscape:cx="49.988258"
-     inkscape:cy="-122.96124"
+     inkscape:zoom="2.88"
+     inkscape:cx="250"
+     inkscape:cy="100"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="33"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg13566">
     <inkscape:grid
@@ -56,7 +56,7 @@
   </sodipodi:namedview>
   <g
      id="g14139"
-     transform="translate(405.29283,-293.95498)">
+     transform="translate(430.29283,-293.95498)">
     <path
        id="path14136"
        d="m -325.07227,367.08203 c -4.99827,-0.0265 -10.04973,0.43266 -13.62695,1.38477 -25.90974,6.89613 -42.07775,33.13971 -35.64062,57.85351 4.83772,18.57327 20.05588,32.87958 39.00976,36.67383 15.98447,3.19983 33.9944,-2.27957 45.48633,-13.83984 11.24256,-11.30943 16.0908,-25.45508 13.9375,-40.66016 -2.60345,-18.38365 -16.93484,-34.32726 -35.85547,-39.88476 -3.36676,-0.98891 -8.31227,-1.50086 -13.31055,-1.52735 z m 0.33399,7.65235 c 3.15238,0.10934 6.37483,0.83374 9.58203,2.25195 27.49546,12.15831 28.20343,62.43946 1.07031,75.99805 -21.07252,10.53006 -42.77842,-8.7363 -42.73242,-37.92969 0.037,-23.51653 15.05721,-40.91077 32.08008,-40.32031 z"
