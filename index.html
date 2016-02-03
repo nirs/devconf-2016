@@ -409,11 +409,10 @@ total 1.7G
           </section>
 
           <section>
-            <h2>We need more contorl</h2>
+            <h2>Engine needs to be in control</h2>
             <ul>
-              <li>Need to freeze guest file systems before creating a snapshot</li>
-              <li>But Libvirt controls snapshot flow</li>
-              <li>Engine needs to be in control</li>
+              <li>Before creating Ceph snaphost, freeze guest file systems</li>
+              <li>But Libvirt is freezing guest files systems during snapshot</li>
             </ul>
             <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
 /*
