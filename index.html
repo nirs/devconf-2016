@@ -381,6 +381,16 @@ total 1.7G
 
           <section>
             <h2>Cephx authentication</h2>
+            <ul>
+              <li>Deploy Ceph keyring on all hosts</li>
+              <li>Persisting unencrypted keys is insecure</li>
+              <li>This is not the oVirt user experience</li>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+# cat /etc/ceph/ceph.client.admin.keyring
+[client.admin]
+   key = AQCj2YpRiAe6CxAA7/ETt7Hcl9IyxyYciVs47w==
+            </code></pre>
+            </ul>
           </section>
 
           <section>
