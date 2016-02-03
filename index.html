@@ -98,15 +98,17 @@
 
           <section>
             <h2>Ceph in a nutshell</h2>
+            <!-- TODO: simplified ceph arch overview empahsizing RBD -->
           </section>
 
           <section>
             <h2>What is Cinder?</h2>
+            <!-- TODO: description -->
           </section>
 
           <section>
             <h2>OpenStack Java SDK</h2>
-            <p>TODO: description, link to daniel github</p>
+            <!-- TODO: description, link to Daniel github -->
           </section>
 
           <section>
@@ -157,6 +159,7 @@
 
           <section>
             <h2>Block Volume</h2>
+            <!-- TODO: Replace with an image -->
             <ul>
               <li>/dev/vgname/lvname (Qemu image)</li>
               <li>/dev/vgname/lvname (LV)</li>
@@ -420,18 +423,22 @@ total 1.7G
 
           <section>
             <h2>Libvirt secrets</h2>
+            <!-- TODO: example of secret xml -->
           </section>
 
           <section>
             <h2>Adding ceph auth keys</h2>
+            <!-- TODO: screenshot from feature page -->
           </section>
 
           <section>
             <h2>Registering secrets</h2>
+            <!-- TODO: flow diagram -->
           </section>
 
           <section>
             <h2>Unregistering secrets</h2>
+            <!-- TODO: flow diagram -->
           </section>
 
         </section>
@@ -444,10 +451,18 @@ total 1.7G
           </section>
 
           <section>
+            <h2>Consistent snapshots</h2>
+            <ul>
+              <li>Before taking s snapshot, guest file systems and storage need to be in consistent state</li>
+              <li>Requires qemu-guest-agent on Linux, VSS on Windows</li>
+            </ul>
+          </section>
+
+          <section>
             <h2>Engine needs to be in control</h2>
             <ul>
               <li>Before creating Ceph snaphost, freeze guest file systems</li>
-              <li>But Libvirt is freezing guest files systems during snapshot</li>
+              <li>Libvirt is freezing guest files systems during snapshot</li>
             </ul>
             <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
 /*
