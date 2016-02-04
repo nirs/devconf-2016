@@ -410,6 +410,25 @@ total 1.7G
           <section>
             <h2>Cephx authentication</h2>
             <ul>
+              <li>Create a Ceph user and key for accessing Ceph volumes</li>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+TODO: creating auth keys in ceph
+            </code></pre>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Configure Cinder ceph key</h2>
+            <ul>
+              <li>Configure Cinder auth key/uuid</li>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+TODO: example from cinder configuration
+            </code></pre>
+            </ul>
+          </section>
+          <section>
+            <h2>Deploying Ceph keys in the cluster</h2>
+            <ul>
               <li>Deploy Ceph keyring on all hosts</li>
               <li>Persisting unencrypted keys is insecure</li>
               <li>This is not the oVirt user experience</li>
@@ -423,22 +442,47 @@ total 1.7G
 
           <section>
             <h2>Libvirt secrets</h2>
-            <!-- TODO: example of secret xml -->
+            <p>Libvirt provides secure way to store keys and passwords</p>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+<secret ephemeral="yes" private="yes">
+    <uuid>3a27b133-abb2-...-bd0a4032866f</uuid>
+    <usage type="ceph">
+        <name>ovirt/3a27b133-abb2-...-bd0a4032866f</name>
+    </usage>
+</secret>
+            </code></pre>
           </section>
 
           <section>
             <h2>Adding ceph auth keys</h2>
-            <!-- TODO: screenshot from feature page -->
+            <ul>
+              <li>Engine provides now a secure way to store auth keys</li>
+              <li>Add the same key/uuid from Cinder configuration to Engine</li>
+            </ul>
+            <p><img class="opaque" src="images/add-auth-key.png"/></p>
           </section>
 
           <section>
-            <h2>Registering secrets</h2>
-            <!-- TODO: flow diagram -->
+            <h2>registerSecrets</h2>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+TODO: registerSecrets api
+            </code></pre>
           </section>
 
           <section>
-            <h2>Unregistering secrets</h2>
-            <!-- TODO: flow diagram -->
+            <h2>unregisterSecrets</h2>
+            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
+TODO: unregisterSecrets api
+            </code></pre>
+          </section>
+          <section>
+            <h2>Registering secrets flow</h2>
+            <p><img class="opaque" src="images/secrets-register.svg"/></p>
+          </section>
+
+          <section>
+            <h2>Unregistering secrets flow</h2>
+            <p><img class="opaque" src="images/secrets-unregister.svg"/></p>
           </section>
 
         </section>
