@@ -304,6 +304,6 @@ body {
 }
 
 .blink {
-  /* 1.5 seconds interval with ease gives hearbeat like feel. */
+  /* 1.5 seconds interval with ease gives heartbeat like feel. */
   animation: blink 1.5s ease 0s infinite;
 }
