@@ -93,24 +93,40 @@
 
           <section>
             <h2>Ceph in a nutshell</h2>
-            <!-- TODO: simplified ceph arch overview empahsizing RBD -->
+            <ul>
+              <li>Ceph is massively scalable and highly reliable software define storage</li>
+              <li>Ceph provides object storage, block storage, and file system</li>
+              <li>We use only Ceph block storage (RBD)</li>
+            </ul>
           </section>
 
           <section>
             <h2>What is Cinder?</h2>
-            <!-- TODO: description -->
+            <ul>
+              <li>Block Storage service for OpenStack Compute Project (Nova)</li>
+              <li>Supports many storage backends</li>
+              <li>We use only Ceph backend</li>
+            </ul>
           </section>
 
           <section>
             <h2>OpenStack Java SDK</h2>
-            <!-- TODO: description, link to Daniel github -->
+            <ul>
+              <li>Engine communicates with Cinder via OpenStack Java SDK</li>
+              <li>Support for Cinder added by Daniel Erez</li>
+              <li>
+                <a href="https://github.com/woorea/openstack-java-sdk">
+                  https://github.com/woorea/openstack-java-sdk
+                </a>
+              </li>
+            </ul>
           </section>
 
           <section>
-            <h2>Focusing on the host side</h2>
+            <h2>Focusing on Ceph integration</h2>
             <p>
-            For more information on the engine side and cinder integration, see
-            Maor Lipchuk's talk from FOSDEM 2016
+            For more information on cinder integration, see Maor Lipchuk's talk
+            from FOSDEM 2016
             <a href="https://fosdem.org/2016/schedule/event/ceph/">
               Managing Ceph through Cinder using oVirt</a>.
             </p>
