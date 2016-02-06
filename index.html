@@ -496,25 +496,39 @@ TODO: unregisterSecrets api
 
           <section>
             <h2>Consistent snapshots</h2>
-            <ul>
-              <li>Before taking s snapshot, guest file systems and storage need to be in consistent state</li>
-              <li>Requires qemu-guest-agent on Linux, VSS on Windows</li>
-            </ul>
+            <ol>
+              <li class="fragment">Freeze guest file systems</li>
+              <li class="fragment">Take a snapshot</li>
+              <li class="fragment">Thaw guest file systems</li>
+            </ol>
+            <p class="fragment">Requires qemu-guest-agent on Linux, VSS on Windows</p>
           </section>
 
           <section>
-            <h2>Engine needs to be in control</h2>
-            <ul>
-              <li>Before creating Ceph snaphost, freeze guest file systems</li>
-              <li>Libvirt is freezing guest files systems during snapshot</li>
-            </ul>
-            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
-/*
- * use guest agent to quiesce all mounted file systems
- * within the domain
- */
-VIR_DOMAIN_SNAPSHOT_CREATE_QUIESCE  = 64;
-            </code></pre>
+            <h2>Traditional snapshot flow</h2>
+            <ol>
+              <li class="fragment" data-fragment-index="1">
+                Engine creates a new disk via Vdsm
+              </li>
+              <li class="fragment" data-fragment-index="2">
+                Engine creates snapshot via Vdsm
+              </li>
+              <li class="fragment" data-fragment-index="3">
+                Libvirt freezes guest file systems
+                <span class="fragment" data-fragment-index="5"
+                  style="position: absolute; left: 0; font-weight: bold; color: red;">
+                  Too late! &rarr;
+                </span>
+              </li>
+              <li class="fragment" data-fragment-index="4">
+                Libvirt switches VM to new disk
+              </li>
+            </ol>
+          </section>
+
+          <section>
+            <h2>Engine must control the entire flow</h2>
+            <p>Freeze guest file systems before creating Ceph disk snapshot</p>
           </section>
 
           <section>
@@ -584,18 +598,18 @@ VIR_DOMAIN_SNAPSHOT_CREATE_QUIESCE  = 64;
             <h2>Live snapshot with Ceph disk</h2>
             <p>Engine now controls the entire flow</p>
             <ol>
-              <li class="fragment fade">Freeze VM via vdsm</li>
-              <li class="fragment fade">Create snapshot via Cinder</li>
-              <li class="fragment fade">Take snapshot via vdsm (frozen=True)</li>
-              <li class="fragment fade">Thaw VM via vdsm</li>
+              <li class="fragment fade">Freeze VM via Vdsm</li>
+              <li class="fragment fade">Create disk snapshot via Cinder</li>
+              <li class="fragment fade">Take VM snapshot via Vdsm (frozen=True)</li>
+              <li class="fragment fade">Thaw VM via Vdsm</li>
             </ol>
           </section>
 
           <section>
             <h2>Live snapshot without Ceph disks</h2>
             <ul>
-              <li>Take snapshot via vdsm (frozen=False)</li>
-              <li>Vdsm freezes and thaws guest file systems if needed</li>
+              <li>Take snapshot via Vdsm (frozen=False)</li>
+              <li>Vdsm will freeze and thaw guest file systems if needed</li>
             </ul>
           </section>
 
