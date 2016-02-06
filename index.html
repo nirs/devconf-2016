@@ -410,40 +410,16 @@ total 1.7G
 
           <section>
             <h2>Cephx authentication</h2>
-            <ul>
-              <li>Create a Ceph user and key for accessing Ceph volumes</li>
-            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
-TODO: creating auth keys in ceph
-            </code></pre>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Configure Cinder ceph key</h2>
-            <ul>
-              <li>Configure Cinder auth key/uuid</li>
-            <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
-TODO: example from cinder configuration
-            </code></pre>
-            </ul>
-          </section>
-          <section>
-            <h2>Deploying Ceph keys in the cluster</h2>
-            <ul>
-              <li>Deploy Ceph keyring on all hosts</li>
-              <li>Persisting unencrypted keys is insecure</li>
-              <li>This is not the oVirt user experience</li>
             <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
 # cat /etc/ceph/ceph.client.admin.keyring
 [client.admin]
    key = AQCj2YpRiAe6CxAA7/ETt7Hcl9IyxyYciVs47w==
             </code></pre>
-            </ul>
+            <p class="fragment">We need a more secure way to deploy the key</p>
           </section>
 
           <section>
             <h2>Libvirt secrets</h2>
-            <p>Libvirt provides secure way to store keys and passwords</p>
             <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
 <secret ephemeral="yes" private="yes">
     <uuid>3a27b133-abb2-...-bd0a4032866f</uuid>
@@ -452,38 +428,67 @@ TODO: example from cinder configuration
     </usage>
 </secret>
             </code></pre>
+            <p class="fragment">What is Libvirt crashed or restarted?</p>
           </section>
 
           <section>
-            <h2>Adding ceph auth keys</h2>
+            <h2>Engine manages Ceph auth keys</h2>
             <ul>
-              <li>Engine provides now a secure way to store auth keys</li>
-              <li>Add the same key/uuid from Cinder configuration to Engine</li>
+              <li>Store encrypted auth keys</li>
+              <li>Register Livbirt secrets with all hosts</li>
+              <li>Unregister secrets when unneeded</li>
             </ul>
-            <p><img class="opaque" src="images/add-auth-key.png"/></p>
           </section>
 
           <section>
-            <h2>registerSecrets</h2>
+            <h2 style="text-transform: none">registerSecrets</h2>
             <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
-TODO: registerSecrets api
+##
+# @Host.registerSecrets:
+#
+# Register secrets with libvirt
+#
+# @secrets:     List of secrets to register
+#
+# @clear:       #optional If true, unregister other
+#               registered secrets
+#
+# Since: 4.17.0
+##
             </code></pre>
           </section>
 
           <section>
-            <h2>unregisterSecrets</h2>
+            <h2 style="text-transform: none">unregisterSecrets</h2>
             <pre style="font-size: 0.85em"><code class="hljs nohighlight" data-trim>
-TODO: unregisterSecrets api
+##
+# @Host.unregisterSecrets:
+#
+# Unregister secrets registered for given uuids
+#
+# @uuids:       List of UUIDs
+#
+# Since: 4.17.0
+##
             </code></pre>
-          </section>
-          <section>
-            <h2>Registering secrets flow</h2>
-            <p><img class="opaque" src="images/secrets-register.svg"/></p>
           </section>
 
           <section>
-            <h2>Unregistering secrets flow</h2>
-            <p><img class="opaque" src="images/secrets-unregister.svg"/></p>
+            <h2>Registering secrets</h2>
+            <ul>
+              <li>When host is activated</li>
+              <li>When storage domain is activated</li>
+              <li>When reconnecting to a host</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Unregistering secrets</h2>
+            <ul>
+              <li>When host put to maintenance</li>
+              <li>When storage domain put to maintenance</li>
+              <li>Vdsm clear secrets on startup and shutdown</li>
+            </ul>
           </section>
 
         </section>
