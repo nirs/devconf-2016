@@ -507,23 +507,12 @@ TODO: unregisterSecrets api
           <section>
             <h2>Traditional snapshot flow</h2>
             <ol>
-              <li class="fragment" data-fragment-index="1">
-                Engine creates a new disk via Vdsm
-              </li>
-              <li class="fragment" data-fragment-index="2">
-                Engine creates snapshot via Vdsm
-              </li>
-              <li class="fragment" data-fragment-index="3">
-                Libvirt freezes guest file systems
-                <span class="fragment" data-fragment-index="5"
-                  style="position: absolute; left: 0; font-weight: bold; color: red;">
-                  Too late! &rarr;
-                </span>
-              </li>
-              <li class="fragment" data-fragment-index="4">
-                Libvirt switches VM to new disk
-              </li>
+              <li class="fragment">Engine creates a new disk via Vdsm</li>
+              <li class="fragment">Engine creates snapshot via Vdsm</li>
+              <li class="fragment">Libvirt freezes guest file systems</li>
+              <li class="fragment">Libvirt switches VM to new disk</li>
             </ol>
+            <p class="fragment">Freezing too late!</p>
           </section>
 
           <section>
