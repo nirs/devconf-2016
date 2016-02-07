@@ -87,32 +87,32 @@
             <h2>About oVirt</h2>
             <ul>
               <li>Virtualization platform built on top of KVM, QEMU, Libvirt</li>
-              <li>Manage virtual machines, storage, networks</li>
+              <li>Manages virtual machines, storage, networks</li>
             </ul>
           </section>
 
           <section>
             <h2>Ceph in a nutshell</h2>
             <ul>
-              <li>Ceph is massively scalable and highly reliable software define storage</li>
+              <li>Ceph is a massively scalable and highly reliable software defined storage</li>
               <li>Ceph provides object storage, block storage, and file system</li>
-              <li>We use only Ceph block storage (RBD)</li>
+              <li>oVirt only uses Ceph's block storage (RBD)</li>
             </ul>
           </section>
 
           <section>
             <h2>What is Cinder?</h2>
             <ul>
-              <li>Block Storage service for OpenStack Compute Project (Nova)</li>
+              <li>A Block Storage service for the OpenStack compute project (Nova)</li>
               <li>Supports many storage backends</li>
-              <li>We use only Ceph backend</li>
+              <li>oVirt only uses the Ceph backend</li>
             </ul>
           </section>
 
           <section>
             <h2>OpenStack Java SDK</h2>
             <ul>
-              <li>Engine communicates with Cinder via OpenStack Java SDK</li>
+              <li>oVirt Engine communicates with Cinder via the OpenStack Java SDK</li>
               <li>Support for Cinder added by Daniel Erez</li>
               <li>
                 <a href="https://github.com/woorea/openstack-java-sdk">
@@ -125,7 +125,7 @@
           <section>
             <h2>Focusing on Ceph integration</h2>
             <p>
-            For more information on cinder integration, see Maor Lipchuk's talk
+            For more information on the Cinder integration, see Maor Lipchuk's talk
             from FOSDEM 2016
             <a href="https://fosdem.org/2016/schedule/event/ceph/">
               Managing Ceph through Cinder using oVirt</a>.
@@ -513,9 +513,9 @@ total 1.7G
           <section>
             <h2>Unregistering secrets</h2>
             <ul>
-              <li>When host put to maintenance</li>
-              <li>When storage domain put to maintenance</li>
-              <li>Vdsm clear secrets on startup and shutdown</li>
+              <li>When host is put to maintenance</li>
+              <li>When storage domain is put to maintenance</li>
+              <li>Vdsm clears secrets on startup and shutdown</li>
             </ul>
           </section>
 
